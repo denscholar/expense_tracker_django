@@ -69,3 +69,33 @@
 .bd-mode-toggle {
   z-index: 1500;
 }
+
+/* login */
+
+.wrapper{
+    width: 450px;
+    margin: 10rem auto;
+    padding: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+
+}
+
+.form-group{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.form-group .eye-icon{
+  position: absolute;
+  right: 10px;
+}
+
+.form-group .eye-icon .hidden{
+  display: none;
+}
+
+form .f-password a{
+  text-decoration: none;
+}
