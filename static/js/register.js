@@ -1,13 +1,10 @@
 const username_field = document.getElementById("username-field");
-const usernameFeedback = document.querySelector(".error-feedback small");
-console.log(usernameFeedback);
-
+const usernameFeedback = document.querySelector(".error-username-feedback small");
 
 // username validation
 username_field.addEventListener("keyup", function (e) {
   e.preventDefault();
   const inputValue = e.target.value;
-  console.log(inputValue);
 
   // reset the values
   username_field.classList.remove("warning");
@@ -35,5 +32,33 @@ username_field.addEventListener("keyup", function (e) {
   }
 });
 
-
 // Email validation
+const email_field = document.getElementById("email-field");
+const emailFeedback = document.querySelector(".error-email-feedback small");
+
+email_field.addEventListener("keyup", function (e) {
+  const emailValue = e.target.value;
+
+    // reset the email field
+    email_field.classList.remove("warning");
+    emailFeedback.style.display = "none";
+
+  if (emailValue.length > 0) {
+    fetch("/auth/email-validation/", {
+      body: JSON.stringify({ email: emailValue }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.error) {
+            email_field.classList.add("warning");
+            emailFeedback.style.display = "block";
+            emailFeedback.textContent = `${data.error}`
+        }
+      });
+  }
+});

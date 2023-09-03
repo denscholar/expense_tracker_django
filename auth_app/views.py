@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from validate_email import validate_email
 import json
 
 # username validation
@@ -34,8 +35,8 @@ def email_validation(request):
         try:
             data = json.loads(request.body)
             email = data.get('email', '')
-            if not email:
-                return JsonResponse({'error': 'email cannot be empty'})
+            if not validate_email(email):
+                return JsonResponse({'error': 'Invalid email address'})
             
             if User.objects.filter(email=email).exists():
                 return JsonResponse({"error": "email already exists"})
@@ -52,20 +53,4 @@ def email_validation(request):
 class Register(View):
     def get(self, request):
         return render(request, 'auth_app/register.html')
-
-
-# class UsernameValidationView(View):
-#     def post(self, request):
-
-#         data = json.loads(request.body)
-#         username = data['username']
-
-#         if not str(username).isalnum():
-#             return JsonResponse({"username_error": "Username must include characters, numbers and special characters"}, status=400)
-
-#         # if the username already taken/exist in the database
-#         if User.objects.filter(username=username).exists():
-#             return JsonResponse({"username_error": "Username already exist"}, status=409)
-
-#         return JsonResponse({"email_valid": True})
 
