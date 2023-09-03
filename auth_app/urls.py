@@ -2,6 +2,8 @@ from . import views
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import path
 
+app_name = 'auth_app'
+
 urlpatterns = [
     # path("login/", views.login, name="login"),
     path("register/", views.Register.as_view(), name="register"),

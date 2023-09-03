@@ -3,6 +3,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from validate_email import validate_email
+from django.contrib import messages
 import json
 
 # username validation
@@ -53,4 +54,10 @@ def email_validation(request):
 class Register(View):
     def get(self, request):
         return render(request, 'auth_app/register.html')
-
+    
+    def post(self, request):
+        messages.error(request, 'hello messages error')
+        messages.success(request, 'hello messages success')
+        messages.warning(request, 'hello messages warning')
+        messages.info(request, 'hello messages info')
+        return render(request, 'auth_app/register.html')

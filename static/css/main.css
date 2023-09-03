@@ -103,3 +103,41 @@ form .f-password a{
 .form-group .warning{
   border: 2px solid red;
 }
+
+/* messages alert */
+/* .alert.alert-sm.alert-success{
+  height: 2px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+  border: none;
+} */
+
+.alert-success, .alert-error, .alert-info, .alert-warning{
+  display: flex;
+  align-items: center;
+  border: none;
+  height: 2px;
+
+}
+
+.alert-success{
+  background-color: #28a745;
+  color: white;
+}
+
+.alert-warning{
+  background-color: #ffc107;
+  color: black;
+}
+
+.alert-error{
+  background-color: #dc3545;
+  color: white;
+}
+
+.alert-info{
+  background-color: #17a2b8;
+  color: white;
+}
