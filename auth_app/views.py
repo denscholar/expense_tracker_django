@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 import json
 
-
+# username validation
 def username_validation(request):
     if request.method == 'POST':
         try:
@@ -18,6 +18,27 @@ def username_validation(request):
             
             if User.objects.filter(username=username).exists():
                 return JsonResponse({"error": "Username already exists"})
+
+            # If everything is valid, you can return a success response.
+            return JsonResponse({'valid': True})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON format'})
+    else:
+        # This is not a POST request, you might want to handle it accordingly. You don't need to render a template in this view, as it's for validation only.
+        return JsonResponse({'error': 'Invalid request method'})
+    
+
+# Email validation
+def email_validation(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email', '')
+            if not email:
+                return JsonResponse({'error': 'email cannot be empty'})
+            
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({"error": "email already exists"})
 
             # If everything is valid, you can return a success response.
             return JsonResponse({'valid': True})

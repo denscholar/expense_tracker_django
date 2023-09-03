@@ -2,6 +2,8 @@ const username_field = document.getElementById("username-field");
 const usernameFeedback = document.querySelector(".error-feedback small");
 console.log(usernameFeedback);
 
+
+// username validation
 username_field.addEventListener("keyup", function (e) {
   e.preventDefault();
   const inputValue = e.target.value;
@@ -32,3 +34,6 @@ username_field.addEventListener("keyup", function (e) {
       });
   }
 });
+
+
+// Email validation
