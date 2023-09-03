@@ -1,5 +1,7 @@
 const username_field = document.getElementById("username-field");
-const usernameFeedback = document.querySelector(".error-username-feedback small");
+const usernameFeedback = document.querySelector(
+  ".error-username-feedback small"
+);
 
 // username validation
 username_field.addEventListener("keyup", function (e) {
@@ -21,7 +23,6 @@ username_field.addEventListener("keyup", function (e) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         // error? change the field to red
         if (data.error) {
           username_field.classList.add("warning");
@@ -39,9 +40,9 @@ const emailFeedback = document.querySelector(".error-email-feedback small");
 email_field.addEventListener("keyup", function (e) {
   const emailValue = e.target.value;
 
-    // reset the email field
-    email_field.classList.remove("warning");
-    emailFeedback.style.display = "none";
+  // reset the email field
+  email_field.classList.remove("warning");
+  emailFeedback.style.display = "none";
 
   if (emailValue.length > 0) {
     fetch("/auth/email-validation/", {
@@ -55,10 +56,25 @@ email_field.addEventListener("keyup", function (e) {
       .then((data) => {
         console.log(data);
         if (data.error) {
-            email_field.classList.add("warning");
-            emailFeedback.style.display = "block";
-            emailFeedback.textContent = `${data.error}`
+          email_field.classList.add("warning");
+          emailFeedback.style.display = "block";
+          emailFeedback.textContent = `${data.error}`;
         }
       });
+  }
+});
+
+// password toggle fucntionality
+const showIcon = document.querySelector(".eye-icon small");
+const passwordInput = document.querySelector("#password-field");
+const toggleIconclose = document.querySelector(".eye-icon .fa-eye-slash");
+
+showIcon.addEventListener("click", () => {
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    showIcon.textContent = 'Hide'
+  } else {
+    showIcon.textContent = 'Show'
+    passwordInput.type = "password";
   }
 });
