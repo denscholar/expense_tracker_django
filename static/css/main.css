@@ -92,8 +92,8 @@
   right: 10px;
 }
 
-.form-group .eye-icon .hidden{
-  display: none;
+.form-group span small{
+  cursor: pointer;
 }
 
 form .f-password a{
