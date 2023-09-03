@@ -74,10 +74,10 @@
 
 .wrapper{
     width: 450px;
-    margin: 10rem auto;
+    margin: 5rem auto;
     padding: 2rem;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-
+    height: auto;
 }
 
 .form-group{
@@ -98,4 +98,8 @@
 
 form .f-password a{
   text-decoration: none;
+}
+
+.form-group .warning{
+  border: 2px solid red;
 }
