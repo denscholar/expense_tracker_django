@@ -1,15 +1,18 @@
 {% extends 'base_auth.html' %} {% block content %} {% load static %}
 <div class="wrapper">
   <h2>Register</h2>
-  <form action="{% url 'auth_app:register' %}" class="signin-form" method="POST">
+  <form action="{% url 'auth_app:register' %}" class="registration-form" id="reg-form" method="POST">
     {% include 'partials/_messages.html' %}
     {% csrf_token %}
     <div class="form-group mt-3">
       <input
         id="username-field"
+        name="username"
         type="text"
         class="form-control"
         placeholder="Username"
+        value="{{fieldValues.username}}"
+        required
 
       />
     </div>
@@ -20,8 +23,11 @@
       <input
         id="email-field"
         type="email"
+        name="email"
         placeholder="Email"
         class="form-control"
+        value="{{fieldValues.email}}"
+        required
 
       />
     </div>
@@ -32,8 +38,10 @@
       <input
         id="password-field"
         type="password"
+        name="password"
         placeholder="password"
         class="form-control"
+        required
 
       />
       <span class="eye-icon">
@@ -43,7 +51,7 @@
     <div class="mt-3">
       <button
         type="submit"
-        class="form-control btn btn-primary rounded submit px-3"
+        class="form-control btn btn-primary rounded submit-btn px-3"
       >
         Sign In
       </button>
