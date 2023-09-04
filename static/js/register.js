@@ -3,6 +3,12 @@ const usernameFeedback = document.querySelector(
   ".error-username-feedback small"
 );
 
+const form = document.forms['reg-form']
+console.log(form);
+
+// submit btn
+const submitBtn = document.querySelector(".submit-btn");
+
 // username validation
 username_field.addEventListener("keyup", function (e) {
   e.preventDefault();
@@ -23,11 +29,15 @@ username_field.addEventListener("keyup", function (e) {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         // error? change the field to red
         if (data.error) {
+          submitBtn.disabled = true;
           username_field.classList.add("warning");
           usernameFeedback.style.display = "block";
           usernameFeedback.textContent = `${data.error}`;
+        } else {
+          submitBtn.disabled = false;
         }
       });
   }
@@ -56,9 +66,12 @@ email_field.addEventListener("keyup", function (e) {
       .then((data) => {
         console.log(data);
         if (data.error) {
+          submitBtn.disabled = true;
           email_field.classList.add("warning");
           emailFeedback.style.display = "block";
           emailFeedback.textContent = `${data.error}`;
+        } else {
+          submitBtn.disabled = false;
         }
       });
   }
@@ -72,9 +85,9 @@ const toggleIconclose = document.querySelector(".eye-icon .fa-eye-slash");
 showIcon.addEventListener("click", () => {
   if (passwordInput.type === "password") {
     passwordInput.type = "text";
-    showIcon.textContent = 'Hide'
+    showIcon.textContent = "Hide";
   } else {
-    showIcon.textContent = 'Show'
+    showIcon.textContent = "Show";
     passwordInput.type = "password";
   }
 });
