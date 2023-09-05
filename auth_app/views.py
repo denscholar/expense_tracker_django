@@ -1,10 +1,18 @@
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from validate_email import validate_email
 from django.contrib import messages
+from .utils import token_generator
 import json
+
+# email veerification
+from django.utils.encoding import force_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
 
 
 # username validation
@@ -60,13 +68,11 @@ class Register(View):
         return render(request, "auth_app/register.html")
 
     def post(self, request):
-        username = request.POST.get('username', '')
-        email = request.POST.get('email', '')
-        password = request.POST.get('password', '')
-    
-        context = {
-            'fieldValues': request.POST
-        }
+        username = request.POST.get("username", "")
+        email = request.POST.get("email", "")
+        password = request.POST.get("password", "")
+
+        context = {"fieldValues": request.POST}
         # validate the data
 
         if not User.objects.filter(username=username).exists():
@@ -78,8 +84,39 @@ class Register(View):
                 # create the user account
                 user = User.objects.create(username=username, email=email)
                 user.set_password(password)
+                user.is_active = False
                 user.save()
+
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+
+                domain = get_current_site(request=request).domain
+                link = reverse(
+                    "auth_app:activate",
+                    kwargs={
+                        "uidb64": uidb64,
+                        "token": token_generator.make_token(user),
+                    },
+                )
+                activate_url = "http://" + domain + link
+
+                email_subject = "Activate your account"
+                email_body = (
+                    f"Hi {user.username}, Please use this link to veriify and validate your account\n"
+                    + activate_url
+                )
+                email = EmailMessage(
+                    email_subject,
+                    email_body,
+                    "noreply@denscholar.com",
+                    [email],
+                )
+                email.send(fail_silently=False)
                 messages.success(request, "Accounts successfully created.")
                 render(request, "auth_app/register.html")
 
         return render(request, "auth_app/register.html")
+
+
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+        return redirect("auth_app:login")
