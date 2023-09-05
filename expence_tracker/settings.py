@@ -163,3 +163,6 @@ EMAIL_HOST_PASSWORD = 'bef0bb45448e07'
 EMAIL_PORT = '2525'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+
+LOGIN_URL = 'auth_app:login'
