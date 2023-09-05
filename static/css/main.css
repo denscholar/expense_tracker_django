@@ -104,22 +104,11 @@ form .f-password a{
   border: 2px solid red;
 }
 
-/* messages alert */
-/* .alert.alert-sm.alert-success{
-  height: 2px;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: white;
-  border: none;
-} */
-
 .alert-success, .alert-error, .alert-info, .alert-warning{
-  display: flex;
-  align-items: center;
   border: none;
   height: 2px;
-
+  display: flex !important;
+  align-items: center !important;
 }
 
 .alert-success{
@@ -141,3 +130,22 @@ form .f-password a{
   background-color: #17a2b8;
   color: white;
 }
+
+button.btn-close{
+  font-size: 15px;
+  padding: 0 !important;
+  color: white;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.alert-dismissible .btn-close{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: absolute !important;
+  top: 8px !important;
+  right: 10px !important;
+}
+

@@ -1,11 +1,13 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from validate_email import validate_email
 from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login
 from .utils import token_generator
 import json
 
@@ -121,19 +123,19 @@ class Register(View):
 class VerificationView(View):
     def get(self, request, uidb64, token):
         try:
-            id = urlsafe_base64_decode(uidb64).decode('utf-8')
+            id = urlsafe_base64_decode(uidb64).decode("utf-8")
             user = User.objects.get(pk=id)
 
             if not token_generator.check_token(user, token):
-                return redirect('auth_app:login'+'?message=User already activated')
+                return redirect("auth_app:login" + "?message=User already activated")
 
             if user.is_active:
                 return redirect("auth_app:login")
             user.is_active = True
             user.save()
 
-            messages.success(request, 'Account activated successfully')
-            return redirect('auth_app:login')
+            messages.success(request, "Account activated successfully")
+            return redirect("auth_app:login")
 
         except Exception as e:
             pass
@@ -144,3 +146,39 @@ class VerificationView(View):
 class LoginView(View):
     def get(self, request):
         return render(request, "auth_app/login.html")
+
+    def post(self, request):
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        try:
+            user_object = User.objects.get(username=username)
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"Welcome {user.username}")
+                return redirect('expenses:expenses')
+            elif not user_object.is_active:
+                raise Http404("Invalid account. Please activate")
+            elif not username or not password:
+                messages.error(request, "Both username and password are required")
+                return render(request, "auth_app/login.html")
+            else:
+                raise Http404("Invalid credentials")
+
+        except User.DoesNotExist:
+            messages.error(request, "User does not exist")
+            return render(request, "auth_app/login.html")
+
+        except Http404 as e:
+            messages.error(request, str(e))
+            return render(request, "auth_app/login.html")
+
+        except Exception as e:
+            messages.error(request, "An error occurred")
+            return render(request, "auth_app/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('auth_app:login')

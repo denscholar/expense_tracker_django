@@ -6,6 +6,7 @@ app_name = 'auth_app'
 
 urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
+   path('logout/', views.logout_view, name='logout'),
     path("register/", views.Register.as_view(), name="register"),
     path("username-validation/", csrf_exempt(views.username_validation), name="user-validation"),
     path("email-validation/", csrf_exempt(views.email_validation), name="email-validation"),
