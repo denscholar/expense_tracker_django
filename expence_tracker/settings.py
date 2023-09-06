@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "expenses",
     "auth_app",
+    "user_preferences",
     # third party libraries
     "rest_framework",
 ]
@@ -143,10 +144,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 MESSAGE_TAGS = {
-    messages.INFO: 'info',
-    messages.SUCCESS: 'success',
-    messages.WARNING: 'warning',
-    messages.ERROR: 'error',
+    messages.INFO: "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR: "error",
 }
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -156,13 +157,13 @@ MESSAGE_TAGS = {
 # EMAIL_USE_TLS = True
 # EMAIL_PORT = 587
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '2b1d6d924e764b'
-EMAIL_HOST_PASSWORD = 'bef0bb45448e07'
-EMAIL_PORT = '2525'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "sandbox.smtp.mailtrap.io"
+EMAIL_HOST_USER = "2b1d6d924e764b"
+EMAIL_HOST_PASSWORD = "bef0bb45448e07"
+EMAIL_PORT = "2525"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 
-LOGIN_URL = 'auth_app:login'
+LOGIN_URL = "auth_app:login"
