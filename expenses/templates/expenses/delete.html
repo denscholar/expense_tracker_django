@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="form-container-delete">
+    <form action="{% url 'expenses:delete-expenses' expense.id %}" method="POST">
+        {% csrf_token %}
+        <h5>Are you sure you want to delete this expense?</h5>
+        <div class="delete-cancel mt-4">
+            <a class="btn btn-primary w-50" href="{% url 'expenses:expenses' %}">Cancel</a>
+            <button type="submit" class="btn btn-danger w-50">Delete</button>
+        </div>
+    </form>
+</div>    
+{% endblock %}
+    
