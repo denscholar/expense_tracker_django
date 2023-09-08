@@ -13,7 +13,7 @@
         aria-label="Example select with button addon"
       >
         {% if user_preferences.currency %}
-        <option name="currency" selected value="{{user_preferences.currency}}">{{user_preferences.currency}}</option>
+        <option name="currency">{{user_preferences.currency}}</option>
         {% endif %} {% for currency in currencies %}
         <option name="currency" value="{{currency.name}} - {{currency.value}}">
           {{currency.name}} - {{currency.value}}

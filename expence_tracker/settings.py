@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "user_preferences",
     # third party libraries
     "rest_framework",
+    "fontawesomefree",
 ]
 
 MIDDLEWARE = [
