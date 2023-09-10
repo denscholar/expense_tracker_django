@@ -4,16 +4,22 @@ from .models import Category, Expense
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 @login_required
 def index(request):
     current_user = request.user
     expenses = Expense.objects.filter(owner=current_user)
-    expense = Expense.objects.all()
+    paginator = Paginator(expenses, 2)
+    page_number = request.GET.get("page")
+
+    # construct page_obj
+    page_obj = Paginator.get_page(paginator, page_number)
 
     context = {
         "expenses": expenses,
+        "page_obj": page_obj,
     }
     # import pdb
     # pdb.set_trace()
@@ -104,7 +110,7 @@ def delete_expense(request, id):
         expense.delete()
         messages.success(request, "Expense record deleted successfully")
         return redirect("expenses:expenses")  # Redirect to the expenses list page
-    
+
     context = {
         "expense": expense,
     }

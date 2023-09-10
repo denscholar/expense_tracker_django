@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # third party libraries
     "rest_framework",
     "fontawesomefree",
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

@@ -170,6 +170,20 @@ button.btn-close{
   font-weight: bold;
 }
 
+.add-button-expense{
+  background: green;
+  height: 2.5rem;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50px;
+  font-weight: bold;
+
+
+}
+
 /* delete page */
 .form-container-delete{
   display: flex;
@@ -201,4 +215,9 @@ button.btn-close{
   text-align: center;
   line-height: 1.5;
 
+}
+
+/* search input - expense */
+input.form-control.me-2{
+  width: 25rem !important;
 }
