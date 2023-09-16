@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %}{% load humanize %}
+{% extends 'base.html' %} {% block content %} {% load static  %}{% load humanize %}
 <div class="expense-wrapper mt-5">
   {% include 'partials/_messages.html' %}
   <div class="wrapper-index d-flex justify-content-between">
@@ -9,13 +9,14 @@
       </ol>
     </nav>
     <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      {% csrf_token %}
+      <input class="form-control me-2" name="searchText" id="searchInput" placeholder="Search">
     </form>
     <a class="add-button-expense" href="{% url 'expenses:add-expenses' %}"
       >Add Expenses</a
     >
   </div>
-</div>
+
 
 {% if expenses.count == 0 %}
 <div class="center-text">
@@ -23,7 +24,7 @@
 </div>
         {% else %}
         <div class="expenses">
-            <table class="table mt-4">
+            <table class="table mt-4 table-show">
               <thead class="table-dark">
                 <tr>
                   <th scope="col">Amount</th>
@@ -42,21 +43,45 @@
                   <td>{{expense.description}}</td>
                   <td>{{expense.date}}</td>
                   <td class="text-center"><a href="{% url 'expenses:edit-expenses' expense.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                  <td class="text-center"><a href="{% url 'expenses:delete-expenses' expense.id %}"><i class="fa-solid fa-trash-can style="color: #ffffff; text-align:center;"></i></a></td>
+                  <td class="text-center"><a href="{% url 'expenses:delete-expenses' expense.id %}"><i class="fa-solid fa-trash-can" style="color: #ffffff; text-align:center;"></i></a></td>
 
                 </tr>
             </tbody>
             {% endfor %}
     </table>
 
-    <div class="paginator-class">
-      Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}} pages
+    <table class="table table-output mt-4">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Amount</th>
+          <th scope="col">Category</th>
+          <th scope="col">Description</th>
+          <th scope="col">Date</th>
+          <th class="text-center" scope="col">Update</th>
+          <th class="text-center" scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for expense in page_obj %}
+        <tr>
+          <td>{{expense.amount|floatformat:2|intcomma }}</td>
+          <td>{{expense.category}}</td>
+          <td>{{expense.description}}</td>
+          <td>{{expense.date}}</td>
+          <td class="text-center"><a href="{% url 'expenses:edit-expenses' expense.id %}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+          <td class="text-center"><a href="{% url 'expenses:delete-expenses' expense.id %}"><i class="fa-solid fa-trash-can" style="color: #ffffff; text-align:center;"></i></a></td>
 
-    </div>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+  </div>
 
-
-    <div class="paginator-class mt-3">
-      <nav aria-label="Page navigation">
+    <div class="paginator-class-wrapper">
+      <div class="paginator-class">
+        Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}} pages
+      </div>
+      <div class="Page-navigation">
           <ul class="pagination justify-content-center">
               {% if page_obj.has_previous %}
                   <li {% if page_obj == 1  %} class="page-item active" {% endif %}>
@@ -75,13 +100,10 @@
                   </li>
               {% endif %}
           </ul>
-      </nav>
-  </div>
-  
-
-  </div>
+      </div>
+    </div>
 {% endif %}
-    
+</div>
 
-
+<script src="{% static 'js/expense_search.js' %}"></script>
 {% endblock content %}

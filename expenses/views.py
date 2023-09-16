@@ -1,10 +1,11 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Category, Expense
-from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
+import json
 
 
 @login_required
@@ -96,13 +97,6 @@ def edit_expenses(request, id):
     return render(request, "expenses/edit_expenses.html", context)
 
 
-# def delete_expense(request):
-#     expense = get_object_or_404(Expense, pk=id, owner=request.user)
-#     expense.delete()
-#     messages.success(request, 'expense record deleted successfully')
-#     return render(request, "expenses/delete_expense")
-
-
 def delete_expense(request, id):
     expense = get_object_or_404(Expense, pk=id)
 
@@ -116,3 +110,19 @@ def delete_expense(request, id):
     }
 
     return render(request, "expenses/delete.html", context)
+
+
+# search expense request Api request
+def get_search_expense(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        search_data = data.get("searchText", "")
+
+        expenses = Expense.objects.filter(amount__istartswith=search_data) | Expense.objects.filter(description__icontains=search_data)| Expense.objects.filter(date__istartswith=search_data)| Expense.objects.filter(category__istartswith=search_data)
+        
+
+        search_values = expenses.values()
+
+        print(search_values)
+
+    return JsonResponse(list(search_values), safe=False)

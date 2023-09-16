@@ -221,3 +221,22 @@ button.btn-close{
 input.form-control.me-2{
   width: 25rem !important;
 }
+
+table h1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  height: 50vh;
+}
+
+.paginator-class-wrapper{
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center !important;
+  margin-top: 3rem !important;
+}
+
+table {
+  border-spacing: 10px !important; /* Adjust the value to control the amount of spacing */
+}
