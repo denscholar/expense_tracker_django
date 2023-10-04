@@ -12,7 +12,7 @@ import json
 def index(request):
     current_user = request.user
     expenses = Expense.objects.filter(owner=current_user)
-    paginator = Paginator(expenses, 2)
+    paginator = Paginator(expenses, 5)
     page_number = request.GET.get("page")
 
     # construct page_obj
@@ -22,8 +22,7 @@ def index(request):
         "expenses": expenses,
         "page_obj": page_obj,
     }
-    # import pdb
-    # pdb.set_trace()
+
     return render(request, "expenses/index.html", context)
 
 
@@ -118,7 +117,7 @@ def get_search_expense(request):
         data = json.loads(request.body)
         search_data = data.get("searchText", "")
 
-        expenses = Expense.objects.filter(amount__istartswith=search_data) | Expense.objects.filter(description__icontains=search_data)| Expense.objects.filter(date__istartswith=search_data)| Expense.objects.filter(category__istartswith=search_data)
+        expenses = Expense.objects.filter(amount__istartswith=search_data) | Expense.objects.filter(description__icontains=search_data)| Expense.objects.filter(date__istartswith=search_data)| Expense.objects.filter(category__name__istartswith=search_data)
         
 
         search_values = expenses.values()

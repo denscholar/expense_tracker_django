@@ -61,7 +61,7 @@
           <th class="text-center" scope="col">Delete</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="table-body">
         {% for expense in page_obj %}
         <tr>
           <td>{{expense.amount|floatformat:2|intcomma }}</td>
@@ -81,7 +81,7 @@
       <div class="paginator-class">
         Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}} pages
       </div>
-      <div class="Page-navigation">
+      <div class="page-navigation">
           <ul class="pagination justify-content-center">
               {% if page_obj.has_previous %}
                   <li {% if page_obj == 1  %} class="page-item active" {% endif %}>
